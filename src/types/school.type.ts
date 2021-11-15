@@ -7,5 +7,6 @@ export default interface SchoolData {
   isOpen?:boolean ,
   year:number,
   telephoneNo:number,
-  emailId:string
+  emailId:string,
+  address:string
 }

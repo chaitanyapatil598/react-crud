@@ -1,6 +1,6 @@
 import { ChangeEvent, Component } from "react";
 import SchoolData from '../types/school.type';
-import SchoolDataService from  '../services/school.service'
+import SchoolDataService from '../services/school.service'
 type Props = {};
 
 
@@ -17,8 +17,10 @@ export default class AddSchool extends Component<Props, State>{
     this.onChangeIsOpen = this.onChangeIsOpen.bind(this);
     this.onChangeEmailId = this.onChangeEmailId.bind(this);
     this.onChangeTelephoneNo = this.onChangeTelephoneNo.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
     this.saveSchool = this.saveSchool.bind(this);
     this.newSchool = this.newSchool.bind(this);
+
 
 
     this.state = {
@@ -30,6 +32,7 @@ export default class AddSchool extends Component<Props, State>{
       year: 2021,
       telephoneNo: 123456789,
       emailId: "",
+      address: "",
       submitted: false
     };
   }
@@ -42,7 +45,8 @@ export default class AddSchool extends Component<Props, State>{
       isOpen: this.state.isOpen,
       year: this.state.year,
       telephoneNo: this.state.telephoneNo,
-      emailId: this.state.emailId
+      emailId: this.state.emailId,
+      address: this.state.address
 
     };
     console.log('save school form data   ', data)
@@ -54,10 +58,10 @@ export default class AddSchool extends Component<Props, State>{
           registerNo: response.data.registerNo,
           state: response.data.state,
           submitted: true,
-          isOpen:response.data.isOpen,
-          year:response.data.year,
-          emailId:response.data.emailId,
-          telephoneNo:response.data.telephoneNo
+          isOpen: response.data.isOpen,
+          year: response.data.year,
+          emailId: response.data.emailId,
+          telephoneNo: response.data.telephoneNo
         });
         console.log(response.data);
       })
@@ -73,6 +77,7 @@ export default class AddSchool extends Component<Props, State>{
       registerNo: null,
       state: "",
       isOpen: false,
+      address: "",
       year: 2021,
       telephoneNo: 123456789,
       emailId: "",
@@ -121,9 +126,14 @@ export default class AddSchool extends Component<Props, State>{
       emailId: event.target.value
     });
   }
+  onChangeAddress(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      address: event.target.value
+    });
+  }
 
   render() {
-    const { schoolName, state, year, registerNo, submitted, emailId, telephoneNo, isOpen } = this.state
+    const { schoolName, state, year, registerNo, submitted, emailId, telephoneNo, isOpen, address } = this.state
 
     return (
       <div className="submit-form">
@@ -220,6 +230,18 @@ export default class AddSchool extends Component<Props, State>{
                 value={emailId}
                 onChange={this.onChangeEmailId}
                 name="emailId"
+              />
+            </div>
+            <div>
+              <label htmlFor="address"> Address </label>
+              <input
+                type="text"
+                className="form-control"
+                id="address"
+                required
+                value={address}
+                onChange={this.onChangeAddress}
+                name="address"
               />
             </div>
             <button onClick={this.saveSchool} className="btn btn-success">
