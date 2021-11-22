@@ -5,6 +5,6 @@ export default interface TeacherData {
   address:string,
   department: string,
  workExperience:Number,
- isActive:Boolean,
+ isActive?:Boolean,
  schoolId: string
 }

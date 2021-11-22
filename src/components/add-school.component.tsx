@@ -21,6 +21,14 @@ export default class AddSchool extends Component<Props, State>{
     this.saveSchool = this.saveSchool.bind(this);
     this.newSchool = this.newSchool.bind(this);
 
+    SchoolDataService.getSchoolList()
+      .then((response: any) => {
+       
+        console.log("schoolData   ",response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
 
 
     this.state = {

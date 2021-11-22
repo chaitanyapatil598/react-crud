@@ -1,72 +1,62 @@
 import { ChangeEvent, Component } from "react";
-import TeacherData from "../types/teacher.type";
-import TeacherDataService from '../services/teacher.service'
-import   SchoolDataService from '../services/school.service'
+import StudentData from "../types/student.type";
+import StudentDataService from '../services/student.service'
 type Props = {};
 
 
-
-type State = TeacherData & {
+type State = StudentData & {
   submitted: boolean
 };
-export default class AddTeacher extends Component<Props, State>{
-
-schoolList = []
+export default class AddStudent extends Component<Props, State>{
   constructor(props: Props) {
     super(props)
-    this.onChangeTeacherName = this.onChangeTeacherName.bind(this);
+    this.onChangeStudentName = this.onChangeStudentName.bind(this);
+    this.onChangeRollNo = this.onChangeRollNo.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
-    this.onChangeDepartment = this.onChangeDepartment.bind(this);
-    this.onChangeWorkExperience = this.onChangeWorkExperience.bind(this);
+    this.onChangeCity = this.onChangeCity.bind(this);
     this.onChangeIsActive = this.onChangeIsActive.bind(this);
+    this.onChangeYear = this.onChangeYear.bind(this);
     this.onChangeSchoolId = this.onChangeSchoolId.bind(this);
-    this.saveTeacher = this.saveTeacher.bind(this);
-    this.newTeacher = this.newTeacher.bind(this);
-
-    SchoolDataService.getSchoolList()
-      .then((response: any) => {
-       this.schoolList = response.data.data
-        console.log("schoolData   ",this.schoolList);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+    this.saveStudent = this.saveStudent.bind(this);
+    this.newStudent = this.newStudent.bind(this);
 
 
 
     this.state = {
       _id: null,
-      teacherName: "",
+      studentName: "",
+      rollNo: 1,
       address: "",
-      department: "",
-      workExperience: 0.5,
+      city: "",
       isActive: false,
+      year: 2020,
       schoolId: "",
-     
       submitted: false
     };
   }
 
-  saveTeacher() {
-    const data: TeacherData = {
-      teacherName: this.state.teacherName,
+  saveStudent() {
+    const data: StudentData = {
+      studentName: this.state.studentName,
+      rollNo: this.state.rollNo,
       address: this.state.address,
-      department: this.state.department,
-      workExperience: this.state.workExperience,
+      city: this.state.city,
       isActive: this.state.isActive,
+      year: this.state.year,
       schoolId: this.state.schoolId
     };
 
-    console.log('save teacher form data   ', data)
-    TeacherDataService.create(data)
+    console.log('save student form data   ', data)
+    StudentDataService.create(data)
       .then((response: any) => {
         this.setState({
           _id: response.data._id,
-          teacherName: response.data.teacherName,
+          studentName: response.data.studentName,
+          rollNo: response.data.rollNo,
           address: response.data.address,
-          department: response.data.department,
-          workExperience: response.data.workExperience,
+          city: response.data.city,
           isActive: response.data.isActive,
+          year: response.data.year,
           schoolId: response.data.schoolId,
           submitted: true
         });
@@ -77,34 +67,40 @@ schoolList = []
       });
   }
 
-  newTeacher() {
+  newStudent() {
     this.setState({
       _id: null,
-      teacherName: "",
+      studentName: "",
+      rollNo: 1,
       address: "",
-      department: "",
-      workExperience: 0.5,
+      city: "",
       isActive: false,
+      year: 2020,
       schoolId: "",
       submitted: false
     })
   }
 
-  onChangeTeacherName(event: ChangeEvent<HTMLInputElement>) {
+  onChangeStudentName(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
-      teacherName: event.target.value
+      studentName: event.target.value
     });
   }
 
+  onChangeRollNo(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      rollNo: Number(event.target.value)
+    });
+  }
   onChangeAddress(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
       address: event.target.value
     });
   }
 
-  onChangeDepartment(event: ChangeEvent<HTMLInputElement>) {
+  onChangeCity(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
-      department: event.target.value
+      city: event.target.value
     });
   }
 
@@ -114,9 +110,9 @@ schoolList = []
     });
   }
 
-  onChangeWorkExperience(event: ChangeEvent<HTMLInputElement>) {
+  onChangeYear(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
-      workExperience: Number(event.target.value)
+      year: Number(event.target.value)
     });
   }
 
@@ -126,43 +122,44 @@ schoolList = []
     });
   }
 
-  // This function is triggered when the select changes
-  onSelectChange(event: React.FormEvent<HTMLSelectElement>) {
-   debugger
-    const value = event.currentTarget.value;
-    this.setState({
-      schoolId: value
-    })
-  };
-
-
-
 
 
   render() {
-    const { teacherName, department, address, workExperience, schoolId, isActive, submitted } = this.state
+    const { studentName, rollNo, address, city, year, schoolId, isActive, submitted } = this.state
 
     return (
       <div className="submit-form">
 
         {submitted ? (<div>
           <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={this.newTeacher}>
-            Add Teacher
+          <button className="btn btn-success" onClick={this.newStudent}>
+            Add Student
           </button>
         </div>
         ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="teacherName">Teacher Name</label>
+              <label htmlFor="studentName">Student Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="teacherName"
+                id="studentName"
                 required
-                value={teacherName}
-                onChange={this.onChangeTeacherName}
-                name="teacherName"
+                value={studentName}
+                onChange={this.onChangeStudentName}
+                name="studentName"
+              />
+            </div>
+            <div>
+              <label htmlFor="rollNo"> RollNo </label>
+              <input
+                type="text"
+                className="form-control"
+                id="rollNo"
+                required
+                value={rollNo}
+                onChange={this.onChangeRollNo}
+                name="rollNo"
               />
             </div>
 
@@ -179,15 +176,15 @@ schoolList = []
               />
             </div>
             <div>
-              <label htmlFor="department">Department</label>
+              <label htmlFor="city"> City </label>
               <input
                 type="text"
                 className="form-control"
-                id="department"
+                id="city"
                 required
-                value={department}
-                onChange={this.onChangeDepartment}
-                name="department"
+                value={city}
+                onChange={this.onChangeCity}
+                name="city"
               />
             </div>
             <div >
@@ -203,19 +200,19 @@ schoolList = []
             </div>
 
             <div>
-              <label htmlFor="workExperience">Workexperience</label>
+              <label htmlFor="year"> Year </label>
               <input
                 type="number"
                 className="form-control"
-                id="workexperience"
+                id="year"
                 required
-                value={Number(workExperience)}
-                onChange={this.onChangeWorkExperience}
-                name="workExperience"
+                value={Number(year)}
+                onChange={this.onChangeYear}
+                name="year"
               />
             </div>
             <div>
-              <label htmlFor="schoolId"> School Id</label>
+              <label htmlFor="schoolId"> School Id </label>
               <input
                 type="text"
                 className="form-control"
@@ -227,26 +224,11 @@ schoolList = []
               />
             </div>
 
-            <button onClick={this.saveTeacher} className="btn btn-success">
+            <button onClick={this.saveStudent} className="btn btn-success">
               Submit
             </button>
           </div>)}
-
-        <div >
-          <select onChange={ e => this.onSelectChange(e) } value={ this.state.schoolId } >
-          <option value="">Select the School Name</option>
-          {this.schoolList? this.schoolList.map(el => (<option value={el}>{el}</option>))
-                   : <p>Loading</p>}
-
-
-          </select>
-          <h1>{this.state.schoolId}</h1>
-
-        </div>
-
       </div>
-
-
     );
   }
 

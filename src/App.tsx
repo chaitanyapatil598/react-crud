@@ -8,6 +8,7 @@ import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
 import AddSchool from "./components/add-school.component";
 import AddTeacher from "./components/add-teacher.component";
+import AddStudent from "./components/add-student.component";
 
 class App extends Component {
   render() {
@@ -32,9 +33,15 @@ class App extends Component {
               <Link to={"/addSchool"} className="nav-link">
                 Add School
               </Link>
-            </li> <li className="nav-item">
+            </li>
+            <li className="nav-item">
               <Link to={"/addTeacher"} className="nav-link">
                 Add Teacher
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/addStudent"} className="nav-link">
+                Add Student
               </Link>
             </li>
           </div>
@@ -45,8 +52,9 @@ class App extends Component {
             <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
             <Route exact path="/add" component={AddTutorial} />
             <Route path="/tutorials/:id" component={Tutorial} />
-            <Route path = "/addSchool" component={AddSchool} />
-            <Route path = "/addTeacher" component={AddTeacher}/>
+            <Route path="/addSchool" component={AddSchool} />
+            <Route path="/addTeacher" component={AddTeacher} />
+            <Route path="/addStudent" component={AddStudent} />
           </Switch>
         </div>
       </div>
