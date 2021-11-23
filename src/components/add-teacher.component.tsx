@@ -1,7 +1,8 @@
 import { ChangeEvent, Component } from "react";
 import TeacherData from "../types/teacher.type";
 import TeacherDataService from '../services/teacher.service'
-import   SchoolDataService from '../services/school.service'
+import SchoolDataService from '../services/school.service'
+import SchoolData from '../types/school.type'
 type Props = {};
 
 
@@ -11,7 +12,7 @@ type State = TeacherData & {
 };
 export default class AddTeacher extends Component<Props, State>{
 
-schoolList = []
+  schoolList: any = []
   constructor(props: Props) {
     super(props)
     this.onChangeTeacherName = this.onChangeTeacherName.bind(this);
@@ -25,8 +26,8 @@ schoolList = []
 
     SchoolDataService.getSchoolList()
       .then((response: any) => {
-       this.schoolList = response.data.data
-        console.log("schoolData   ",this.schoolList);
+        this.schoolList = response.data.data
+        console.log("schoolData   ", this.schoolList);
       })
       .catch((e: Error) => {
         console.log(e);
@@ -42,7 +43,7 @@ schoolList = []
       workExperience: 0.5,
       isActive: false,
       schoolId: "",
-     
+
       submitted: false
     };
   }
@@ -128,7 +129,7 @@ schoolList = []
 
   // This function is triggered when the select changes
   onSelectChange(event: React.FormEvent<HTMLSelectElement>) {
-   debugger
+    debugger
     const value = event.currentTarget.value;
     this.setState({
       schoolId: value
@@ -226,26 +227,19 @@ schoolList = []
                 name="schoolId"
               />
             </div>
+            <div >
+              <select onChange={e => this.onSelectChange(e)}  >
+                <option value="">Select the School Name</option>
+                {this.schoolList ? this.schoolList.map((el: any) => (<option value={el._id} >{el.schoolName}</option>))
+                  : <p>Loading</p>}
+              </select>
+            </div>
 
             <button onClick={this.saveTeacher} className="btn btn-success">
               Submit
             </button>
           </div>)}
-
-        <div >
-          <select onChange={ e => this.onSelectChange(e) } value={ this.state.schoolId } >
-          <option value="">Select the School Name</option>
-          {this.schoolList? this.schoolList.map(el => (<option value={el}>{el}</option>))
-                   : <p>Loading</p>}
-
-
-          </select>
-          <h1>{this.state.schoolId}</h1>
-
-        </div>
-
       </div>
-
 
     );
   }
