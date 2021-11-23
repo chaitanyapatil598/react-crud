@@ -230,8 +230,8 @@ export default class AddTeacher extends Component<Props, State>{
             <div >
               <select onChange={e => this.onSelectChange(e)}  >
                 <option value="">Select the School Name</option>
-                {this.schoolList ? this.schoolList.map((el: any) => (<option value={el._id} >{el.schoolName}</option>))
-                  : <p>Loading</p>}
+                {this.schoolList.length>0 ? this.schoolList.map((el: any) => (<option value={el._id} >{el.schoolName}</option>))
+                  : 'Loading'}
               </select>
             </div>
 
