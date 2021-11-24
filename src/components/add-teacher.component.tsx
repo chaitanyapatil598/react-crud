@@ -2,17 +2,16 @@ import { ChangeEvent, Component } from "react";
 import TeacherData from "../types/teacher.type";
 import TeacherDataService from '../services/teacher.service'
 import SchoolDataService from '../services/school.service'
-import SchoolData from '../types/school.type'
 type Props = {};
 
 
 
 type State = TeacherData & {
-  submitted: boolean
+  submitted: boolean,
+  schools:[]
 };
 export default class AddTeacher extends Component<Props, State>{
 
-  schoolList: any = []
   constructor(props: Props) {
     super(props)
     this.onChangeTeacherName = this.onChangeTeacherName.bind(this);
@@ -24,17 +23,6 @@ export default class AddTeacher extends Component<Props, State>{
     this.saveTeacher = this.saveTeacher.bind(this);
     this.newTeacher = this.newTeacher.bind(this);
 
-    SchoolDataService.getSchoolList()
-      .then((response: any) => {
-        this.schoolList = response.data.data
-        console.log("schoolData   ", this.schoolList);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-
-
-
     this.state = {
       _id: null,
       teacherName: "",
@@ -43,9 +31,22 @@ export default class AddTeacher extends Component<Props, State>{
       workExperience: 0.5,
       isActive: false,
       schoolId: "",
-
+      schools:[],
       submitted: false
     };
+  }
+
+  componentDidMount(){
+    SchoolDataService.getSchoolList()
+    .then((response: any) => {
+      this.setState({
+        schools: response.data.data
+      });
+      console.log("schoolData   ", this.state.schools);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
   }
 
   saveTeacher() {
@@ -129,7 +130,6 @@ export default class AddTeacher extends Component<Props, State>{
 
   // This function is triggered when the select changes
   onSelectChange(event: React.FormEvent<HTMLSelectElement>) {
-    debugger
     const value = event.currentTarget.value;
     this.setState({
       schoolId: value
@@ -141,7 +141,7 @@ export default class AddTeacher extends Component<Props, State>{
 
 
   render() {
-    const { teacherName, department, address, workExperience, schoolId, isActive, submitted } = this.state
+    const { teacherName, department, address, workExperience, schoolId, isActive, submitted,schools } = this.state
 
     return (
       <div className="submit-form">
@@ -230,11 +230,11 @@ export default class AddTeacher extends Component<Props, State>{
             <div >
               <select onChange={e => this.onSelectChange(e)}  >
                 <option value="">Select the School Name</option>
-                {this.schoolList.length>0 ? this.schoolList.map((el: any) => (<option value={el._id} >{el.schoolName}</option>))
+                {schools.length>0 ? schools.map((el: any, key: any) =>
+                  (<option key={key} value={el._id} >{el.schoolName}</option>))
                   : 'Loading'}
               </select>
             </div>
-
             <button onClick={this.saveTeacher} className="btn btn-success">
               Submit
             </button>
