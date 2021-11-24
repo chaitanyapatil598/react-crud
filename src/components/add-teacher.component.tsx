@@ -8,7 +8,7 @@ type Props = {};
 
 type State = TeacherData & {
   submitted: boolean,
-  schools:[]
+  schools: []
 };
 export default class AddTeacher extends Component<Props, State>{
 
@@ -31,25 +31,25 @@ export default class AddTeacher extends Component<Props, State>{
       workExperience: 0.5,
       isActive: false,
       schoolId: "",
-      schools:[],
+      schools: [],
       submitted: false
     };
   }
 
-  componentDidMount(){
-  this.getSchoolList()
+  componentDidMount() {
+    this.getSchoolList()
   }
-  getSchoolList(){
+  getSchoolList() {
     SchoolDataService.getSchoolList()
-    .then((response: any) => {
-      this.setState({
-        schools: response.data.data
+      .then((response: any) => {
+        this.setState({
+          schools: response.data.data
+        });
+        console.log("schoolData   ", this.state.schools);
+      })
+      .catch((e: Error) => {
+        console.log(e);
       });
-      console.log("schoolData   ", this.state.schools);
-    })
-    .catch((e: Error) => {
-      console.log(e);
-    });
   }
 
   saveTeacher() {
@@ -144,7 +144,7 @@ export default class AddTeacher extends Component<Props, State>{
 
 
   render() {
-    const { teacherName, department, address, workExperience, schoolId, isActive, submitted,schools } = this.state
+    const { teacherName, department, address, workExperience, schoolId, isActive, submitted, schools } = this.state
 
     return (
       <div className="submit-form">
@@ -218,22 +218,11 @@ export default class AddTeacher extends Component<Props, State>{
                 name="workExperience"
               />
             </div>
-            <div>
-              <label htmlFor="schoolId"> School Id</label>
-              <input
-                type="text"
-                className="form-control"
-                id="schoolId"
-                required
-                value={schoolId}
-                onChange={this.onChangeSchoolId}
-                name="schoolId"
-              />
-            </div>
+
             <div >
               <select onChange={e => this.onSelectChange(e)}  >
                 <option value="">Select the School Name</option>
-                {schools.length>0 ? schools.map((el: any, key: any) =>
+                {schools.length > 0 ? schools.map((el: any, key: any) =>
                   (<option key={key} value={el._id} >{el.schoolName}</option>))
                   : 'Loading'}
               </select>
