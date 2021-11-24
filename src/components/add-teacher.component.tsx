@@ -37,6 +37,9 @@ export default class AddTeacher extends Component<Props, State>{
   }
 
   componentDidMount(){
+  this.getSchoolList()
+  }
+  getSchoolList(){
     SchoolDataService.getSchoolList()
     .then((response: any) => {
       this.setState({
