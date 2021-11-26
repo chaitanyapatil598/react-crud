@@ -4,8 +4,6 @@ import TeacherDataService from '../services/teacher.service'
 import SchoolDataService from '../services/school.service'
 type Props = {};
 
-
-
 type State = TeacherData & {
   submitted: boolean,
   schools: []
@@ -51,6 +49,7 @@ export default class AddTeacher extends Component<Props, State>{
         console.log(e);
       });
   }
+  
 
   saveTeacher() {
     const data: TeacherData = {
@@ -139,12 +138,14 @@ export default class AddTeacher extends Component<Props, State>{
     })
   };
 
+  
+
 
 
 
 
   render() {
-    const { teacherName, department, address, workExperience, schoolId, isActive, submitted, schools } = this.state
+    const { teacherName, department, address, workExperience, isActive, submitted, schools } = this.state
 
     return (
       <div className="submit-form">
@@ -206,6 +207,7 @@ export default class AddTeacher extends Component<Props, State>{
               />
             </div>
 
+
             <div>
               <label htmlFor="workExperience">Workexperience</label>
               <input
@@ -227,6 +229,7 @@ export default class AddTeacher extends Component<Props, State>{
                   : 'Loading'}
               </select>
             </div>
+ 
             <button onClick={this.saveTeacher} className="btn btn-success">
               Submit
             </button>
@@ -237,3 +240,4 @@ export default class AddTeacher extends Component<Props, State>{
   }
 
 }
+
